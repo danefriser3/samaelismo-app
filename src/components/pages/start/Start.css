@@ -1,0 +1,62 @@
+.start-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  min-height: 100vh;
+  font-family: "Serif", serif;
+  color: lightgray;
+  text-align: center;
+  padding: 2rem;
+}
+
+.icon-farmacon img {
+  width: 300px;
+  height: 375px;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.motto {
+  font-size: 1.3rem;
+  font-style: italic;
+  margin-bottom: 3.5rem;
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.text-link {
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.enter-btn {
+  display: inline-block;
+  background: lightgrey;
+  border: 2px solid lightgrey;
+  border-radius: 0.75em;
+  padding: 0.3rem 1.7rem;
+  font-size: 16px;
+  font-weight: bold;
+  color: dimgray;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  box-shadow: 0 2px 8px rgba(90, 103, 216, 0.08);
+}
+
+.enter-btn:hover {
+  background: #5a67d8;
+  border-color: #2b6cb0;
+}
