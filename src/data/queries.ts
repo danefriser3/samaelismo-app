@@ -26,43 +26,43 @@ export const ADD_COMMENT = gql`
 
 
 export const GET_COMUNICATI = gql`
-        query getComunicati($tipo: String!) {
-            comunicati(tipo: $tipo) {
-                testo
-                data
-                tipo
-            }
-        }
-    `;
+  query getComunicati($tipo: String!) {
+    comunicati(tipo: $tipo) {
+      testo
+      data
+      tipo
+    }
+  }
+`;
 
 
 export const ADD_COMUNICATO = gql`
-        mutation addComunicato($data: String!, $testo: String!, $tipo: String!) {
-            creaComunicato(testo: $testo, data: $data, tipo: $tipo) {
-                testo
-                data
-                tipo
-            }
-        }
-    `;
+  mutation addComunicato($data: String!, $testo: String!, $tipo: String!) {
+    creaComunicato(testo: $testo, data: $data, tipo: $tipo) {
+      testo
+      data
+      tipo
+    }
+  }
+`;
 
 
 export const LOGIN_MUTATION = gql`
-      mutation login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-          email
-          role
-          password
-          token
-        }
-      }
-    `;
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      email
+      role
+      password
+      token
+    }
+  }
+`;
 
 export const REGISTER_MUTATION = gql`
-    mutation register($email: String!, $password: String!) {
-      register(email: $email, password: $password) {
-        email
-        password
-      }
+  mutation register($email: String!, $password: String!) {
+    register(email: $email, password: $password) {
+      email
+      password
     }
-    `;
+  }
+`;

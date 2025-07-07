@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Divider, IconButton, OutlinedInput, Typography } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Divider, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
-import { Login, Logout } from '@mui/icons-material';
 
-export default function LoginForm() {
-    const { login, user, logout, register } = useAuth();
+export default function LoginForm({ isMobile, setMobileOpen }: { isMobile: boolean, setMobileOpen: (open: boolean) => void }) {
+    const { login, register } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -44,17 +43,16 @@ export default function LoginForm() {
 
     return (
         <>
-            {user ? <>
-                <Button variant="contained" color="inherit" sx={{ borderRadius: ".5em", color: "dimgray", display: "flex", gap: "8px" }}><img style={{ height: "30px", width: "30px", borderRadius: "50%" }} src="oaa_logo.jpg" alt="Farmacon Icon" /><p>Welcome, {user?.email.split("@")[0]}</p></Button>
-                <IconButton sx={{ backgroundColor: "lightgrey" }} onClick={() => {
-                    logout();
-                }} >
-                    <Logout />
-                </IconButton>
-            </>
-                : <IconButton sx={{ backgroundColor: "lightgrey" }} onClick={handleClickOpen} >
-                    <Login />
-                </IconButton>}
+            <ListItem disablePadding>
+                <ListItemButton
+                    onClick={() => {
+                        handleClickOpen();
+                        if (isMobile) setMobileOpen(false);
+                    }}
+                >
+                    <ListItemText primary="Login" />
+                </ListItemButton>
+            </ListItem>
             <Dialog
                 open={open}
                 fullWidth

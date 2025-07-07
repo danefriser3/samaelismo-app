@@ -5,13 +5,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TodayIcon from "@mui/icons-material/Today";
 import { useState } from "react";
 
-export default function LiturgicalCalendar({
-    activeCard,
-    setActiveCard,
-}: {
-    activeCard: string | null;
-    setActiveCard: (id: string | null) => void;
-}) {
+export default function LiturgicalCalendar() {
     const festivitaOrdinate = getFestivitaOrdinata(feste);
 
     const [indice, setIndice] = useState(() => {
@@ -39,52 +33,46 @@ export default function LiturgicalCalendar({
             <CardHeader
                 title={"~ " + festa.nome + " ~"}
                 subheader={<Typography variant="subtitle2" color={festa.info.textColor!}>{"season"}</Typography>}
-                onClick={() => setActiveCard(activeCard === "calendar" ? '' : "calendar")}
-                style={{ cursor: "pointer" }}
             />
-            {activeCard === "calendar" && (
-                <>
-                    <Divider variant="middle" />
-                    <CardContent sx={{ pt: 0 }}>
-                        <IconButton size="small" style={{ color: "inherit" }} onClick={() => setIndice((i) => (i - 1 + festivitaOrdinate.length) % festivitaOrdinate.length)}>
-                            <ArrowBackIcon />
-                        </IconButton>
-                        <IconButton style={{ color: "inherit" }} onClick={() => setIndice(findFestivitaToday())}>
-                            <TodayIcon />
-                        </IconButton>
-                        <IconButton size="small" style={{ color: "inherit" }} onClick={() => setIndice((i) => (i + 1) % festivitaOrdinate.length)}>
-                            <ArrowForwardIcon />
-                        </IconButton>
-                        <p>
-                            <em>
-                                {festa.info.intervallo
-                                    ? `from ${festa.info.intervallo.start} to ${festa.info.intervallo.end}`
-                                    : `${festa.info.data.join(", ")}`}
-                            </em>
-                        </p>
-                        {festa.info.backgroundColor &&
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px", marginTop: "16px" }}>
-                                <strong>Color:</strong>
-                                <p>{festa.info.backgroundColor}</p>
-                            </div>
-                        }
-                        {festa.info.archetipo &&
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px" }}>
-                                <strong>Archetype:</strong>
-                                <p>{festa.info.archetipo}</p>
-                            </div>
-                        }
-                        {festa.info.rituale &&
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px" }}>
-                                <strong>Ritual:</strong>
-                                <p>{festa.info.rituale}</p>
-                            </div>
-                        }
-                        <p className="mt-3"><strong>Description:</strong></p>
-                        <p> {festa.info.descrizione}</p>
-                    </CardContent>
-                </>
-            )}
+            <Divider variant="middle" />
+            <CardContent sx={{ pt: 0 }}>
+                <IconButton size="small" style={{ color: "inherit" }} onClick={() => setIndice((i) => (i - 1 + festivitaOrdinate.length) % festivitaOrdinate.length)}>
+                    <ArrowBackIcon />
+                </IconButton>
+                <IconButton style={{ color: "inherit" }} onClick={() => setIndice(findFestivitaToday())}>
+                    <TodayIcon />
+                </IconButton>
+                <IconButton size="small" style={{ color: "inherit" }} onClick={() => setIndice((i) => (i + 1) % festivitaOrdinate.length)}>
+                    <ArrowForwardIcon />
+                </IconButton>
+                <p>
+                    <em>
+                        {festa.info.intervallo
+                            ? `from ${festa.info.intervallo.start} to ${festa.info.intervallo.end}`
+                            : `${festa.info.data.join(", ")}`}
+                    </em>
+                </p>
+                {festa.info.backgroundColor &&
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px", marginTop: "16px" }}>
+                        <strong>Color:</strong>
+                        <p>{festa.info.backgroundColor}</p>
+                    </div>
+                }
+                {festa.info.archetipo &&
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px" }}>
+                        <strong>Archetype:</strong>
+                        <p>{festa.info.archetipo}</p>
+                    </div>
+                }
+                {festa.info.rituale &&
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px" }}>
+                        <strong>Ritual:</strong>
+                        <p>{festa.info.rituale}</p>
+                    </div>
+                }
+                <p className="mt-3"><strong>Description:</strong></p>
+                <p> {festa.info.descrizione}</p>
+            </CardContent>
         </Card>
     ) : (
         <p>Nessuna festività disponibile.</p>

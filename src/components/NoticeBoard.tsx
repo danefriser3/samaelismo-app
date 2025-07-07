@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Notifications, Send } from "@mui/icons-material";
-import { IconButton, Dialog, DialogTitle, DialogContent, OutlinedInput, DialogActions, MenuItem } from "@mui/material";
+import { IconButton, Dialog, DialogTitle, DialogContent, OutlinedInput, DialogActions } from "@mui/material";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { ADD_COMUNICATO, GET_COMUNICATI } from "../data/queries";
@@ -54,9 +54,9 @@ export default function NoticeBoard() {
 
     return (
         <>
-            <MenuItem sx={{ backgroundColor: "lightgrey" }} onClick={handleClickOpen}>
+            <IconButton color="inherit" onClick={handleClickOpen}>
                 <Notifications fontSize="small" />
-            </MenuItem>
+            </IconButton>
             <Dialog
                 open={open}
                 onClose={handleClose}
