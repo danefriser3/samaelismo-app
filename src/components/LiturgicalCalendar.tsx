@@ -1,5 +1,10 @@
-import { Card, CardHeader, IconButton, CardContent, Divider, Typography } from "@mui/material";
-import { feste, getFestivitaOrdinata, isDateInInterval, mmddToNumber } from "../data/feste";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import IconButton from "@mui/material/IconButton";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import { feste, getFestivitaOrdinata, isDateInInterval, mmddToNumber } from "../data/liturgical-calendar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TodayIcon from "@mui/icons-material/Today";
@@ -55,7 +60,7 @@ export default function LiturgicalCalendar() {
                 {festa.info.backgroundColor &&
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "8px", marginTop: "16px" }}>
                         <strong>Color:</strong>
-                        <p>{festa.info.backgroundColor}</p>
+                        <p>{festa.info.color}</p>
                     </div>
                 }
                 {festa.info.archetipo &&

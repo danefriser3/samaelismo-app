@@ -1,6 +1,16 @@
 import { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogTitle, Divider, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Typography from '@mui/material/Typography';
 import { useAuth } from '../contexts/AuthContext';
+import { validateEmail, validatePassword, sanitizeInput } from '../utils/validation';
 
 export default function LoginForm({ isMobile, setMobileOpen }: { isMobile: boolean, setMobileOpen: (open: boolean) => void }) {
     const { login, register } = useAuth();
@@ -22,17 +32,51 @@ export default function LoginForm({ isMobile, setMobileOpen }: { isMobile: boole
     };
 
     const handleLogin = async () => {
-        const ok = await login(email, password);
-        if (!ok) setError('Not working, try again');
+        // Validazione input
+        if (!validateEmail(email)) {
+            setError('Inserisci un indirizzo email valido');
+            return;
+        }
+        
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+            setError(passwordValidation.message || 'Password non valida');
+            return;
+        }
+        
+        // Sanitizza input prima dell'invio
+        const cleanEmail = sanitizeInput(email);
+        const cleanPassword = sanitizeInput(password);
+        
+        const ok = await login(cleanEmail, cleanPassword);
+        if (!ok) {
+            setError('Credenziali non valide. Riprova.');
+            return;
+        }
         handleClose();
     };
     const handleRegister = async () => {
-        if (!email || !password) {
-            setError('Email and password are required');
+        // Validazione completa per registrazione
+        if (!validateEmail(email)) {
+            setError('Inserisci un indirizzo email valido');
             return;
         }
-        const ok = await register(email, password);
-        if (!ok) setError('Not working, try again');
+        
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+            setError(passwordValidation.message || 'Password non valida');
+            return;
+        }
+        
+        // Sanitizza input prima dell'invio
+        const cleanEmail = sanitizeInput(email);
+        const cleanPassword = sanitizeInput(password);
+        
+        const ok = await register(cleanEmail, cleanPassword);
+        if (!ok) {
+            setError('Registrazione fallita. Email già esistente o errore del server.');
+            return;
+        }
         handleClose();
     };
 

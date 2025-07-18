@@ -1,34 +1,22 @@
-import { Button, Card, CardContent } from "@mui/material"
+import React from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import { Verso } from "../data/types"
-import { useState } from "react";
-import Comments from "./Comments";
 
 interface VerseProp {
     verso: Verso;
 }
 
-const Verse = ({ verso }: VerseProp) => {
-
-    const [show, setShow] = useState(false);
-
-
-    const showComments = () => {
-        setShow(p => !p)
-    }
+const Verse = React.memo(({ verso }: VerseProp) => {
 
     return <Card className="mb-4 bg-slate-100">
         <CardContent>
             <h3 className="text-lg font-semibold">{verso.titolo}</h3>
             <p>{verso.testo}</p>
         </CardContent>
-        <CardContent>
-            <Button variant="contained" color='secondary' onClick={showComments}>Check comments</Button>
-        </CardContent>
-        {show && <CardContent>
-            <Comments codice={verso.titolo} />
-        </CardContent>
-        }
     </Card>
-}
+});
+
+Verse.displayName = 'Verse';
 
 export default Verse;

@@ -1,12 +1,15 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION, REGISTER_MUTATION } from '../data/queries';
+import { secureStorage, isTokenValid } from '../utils/secureStorage';
 
 
 interface User {
     email: string;
+    username?: string;
     role: string;
     token: string;
+    // Password rimossa per sicurezza - mai salvare password nel client!
 }
 
 interface AuthContextType {
@@ -29,9 +32,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [registerMutation] = useMutation(REGISTER_MUTATION);
 
     useEffect(() => {
-        const stored = localStorage.getItem('user');
-        if (stored) {
-            setUser(JSON.parse(stored));
+        // Recupera i dati utente e token dal storage sicuro
+        const userData = secureStorage.getUserData();
+        const token = secureStorage.getToken();
+        
+        if (userData && token && isTokenValid(token)) {
+            setUser({ ...userData, token });
+        } else {
+            // Se token non valido, pulisci tutto
+            secureStorage.clearAll();
         }
     }, []);
 
@@ -44,18 +53,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const result = res.data?.login;
             if (result?.token) {
                 const loggedUser = {
+                    username: result.username,
                     email: result.email,
-                    token: result.token,
-                    role: result.role
+                    role: result.role,
+                    token: result.token
                 };
+                
                 setUser(loggedUser);
-                localStorage.setItem('user', JSON.stringify(loggedUser));
+                
+                // Salva separatamente token e dati utente
+                secureStorage.setToken(result.token);
+                secureStorage.setUserData({
+                    username: result.username,
+                    email: result.email,
+                    role: result.role
+                });
+                
                 return true;
             }
 
             return false;
-        } catch (err) {
+        } catch (err: any) {
             console.error('Errore login:', err);
+            // Gestione migliorata degli errori
+            if (err.networkError) {
+                console.error('Errore di rete durante il login');
+            } else if (err.graphQLErrors?.length > 0) {
+                console.error('Errore GraphQL:', err.graphQLErrors[0].message);
+            }
             return false;
         }
     };
@@ -72,15 +97,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }
 
             return false;
-        } catch (err) {
-            console.error('Errore signin:', err);
+        } catch (err: any) {
+            console.error('Errore registrazione:', err);
+            // Gestione migliorata degli errori
+            if (err.networkError) {
+                console.error('Errore di rete durante la registrazione');
+            } else if (err.graphQLErrors?.length > 0) {
+                console.error('Errore GraphQL:', err.graphQLErrors[0].message);
+            }
             return false;
         }
     };
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('user');
+        secureStorage.clearAll();
     };
 
     return (

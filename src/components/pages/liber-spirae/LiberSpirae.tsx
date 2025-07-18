@@ -1,12 +1,18 @@
 import { useState } from 'react';
-import {
-    Card, CardContent, CardHeader, FormControl, InputLabel, MenuItem,
-    OutlinedInput, Pagination, Select, Typography
-} from '@mui/material';
-import { liberSpirae } from '../../../data/liber';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Pagination from '@mui/material/Pagination';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import { liberSpirae } from '../../../data/sacred-texts';
 import Verse from '../../Verse';
 
-const PER_PAGE = 10;
+const PER_PAGE = 20;
 
 const LiberSpirae = () => {
     const [selectedCapitolo, setSelectedCapitolo] = useState('First Spira');
@@ -39,7 +45,7 @@ const LiberSpirae = () => {
     };
 
     return (
-        <Card>
+        <Card className='root-card'>
             <CardHeader title="Liber Spirae" />
             <CardContent>
                 <FormControl fullWidth sx={{ mb: 2 }}>
